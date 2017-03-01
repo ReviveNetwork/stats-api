@@ -1,0 +1,24 @@
+{
+  "name": "stats-api",
+  "version": "1.0.0",
+  "description": "Public Stats API",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReviveNetwork/stats-api.git"
+  },
+  "author": "Melroy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ReviveNetwork/stats-api/issues"
+  },
+  "homepage": "https://github.com/ReviveNetwork/stats-api#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "revive-stats.js": "^1.3.9"
+  }
+}

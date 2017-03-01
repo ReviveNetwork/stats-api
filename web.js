@@ -30,5 +30,8 @@ app.get('/:game/:function/:param', function (req, res) {
 var listener = app.listen((process.env.PORT || 80), function () {
     console.log('API now running on port: ' + listener.address().port);
 });
-
+process.on('uncaughtException', (err) => {
+    console.log('Uncaught Exception:' + err);
+    console.log(err.stack);
+});
 module.exports = app;

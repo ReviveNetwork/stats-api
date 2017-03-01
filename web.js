@@ -27,7 +27,7 @@ app.get('/:game/:function/:param', function (req, res) {
     res.end();
 });
 
-var listener = app.listen(process.env.port || 80, function () {
+var listener = app.listen((process.env.PORT || 80), function () {
     console.log('API now running on port: ' + listener.address().port);
 });
 

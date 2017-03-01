@@ -6,6 +6,8 @@ let app = express();
 app.use(bodyParser.json())
 
 app.get('/:game/:function/:param', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     let game = stats.bf2142;
     if (req.params.game.toString().includes('bf2'))
         game = stats.bf2;

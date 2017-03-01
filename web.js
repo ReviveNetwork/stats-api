@@ -12,20 +12,21 @@ app.get('/:game/:function/:param', function (req, res) {
     let game = stats.bf2142;
     if (req.params.game.toString().includes('bf2'))
         game = stats.bf2;
-    if (req.params.function.toString() === "getPlayer")
+    if (req.params.function.toString().toLowerCase() === "getplayer")
         game.getPlayer(req.params.param).then(res.send).then(res.end).catch(err => {
             res.send("{\"error\":\"" + err + "\"}");
             res.end();
         })
-    else if (req.params.function.toString() === "getPlayers" || req.params.function.toString() === "search")
+    else if (req.params.function.toString().toLowerCase() === "getplayers" || req.params.function.toString().toLowerCase() === "search")
         game.getPlayers(req.params.param).then(res.send).then(res.end).catch(err => {
             res.send("{\"error\":\"" + err + "\"}");
             res.end();
         })
     else {
         res.send("{\"error\":\"Invalid Method\"}")
+        res.end();
     }
-    res.end();
+
 });
 
 var listener = app.listen((process.env.PORT || 80), function () {

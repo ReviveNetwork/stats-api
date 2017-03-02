@@ -19,6 +19,9 @@ app.get('/:game/getplayer', function (req, res) {
         return;
     }
     //console.log("Executing getplayer " + req.param('pid'));
+    if (!req.query['pid']) {
+        res.end("{\"error\":\"" + "INVALID PID" + "\"}", () => console.log("An Invalid PID was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
+    }
     game.getPlayer(req.query['pid']).then(JSON.stringify).then(js => res.end(js, () => {
         console.log("Done");
         return;
@@ -39,6 +42,9 @@ app.get('/:game/getplayers', function (req, res) {
         return;
     }
     //console.log(req.param('nick'));
+    if (!req.query['nick']) {
+        res.end("{\"error\":\"" + "INVALID NICK" + "\"}", () => console.log("An Invalid NICK was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
+    }
     game.getPlayers(req.query['nick']).then(JSON.stringify).then(p => {
         console.log(p);
         return p;
@@ -60,6 +66,9 @@ app.get('/:game/getleaderboard', function (req, res) {
     if (!game) {
         res.end("{\"error\":\"" + "INVALID GAME" + "\"}", () => console.log("An Invalid Game was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
         return;
+    }
+    if (!req.query['type']) {
+        res.end("{\"error\":\"" + "INVALID TYPE" + "\"}", () => console.log("An Invalid TYPE was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
     }
     game.getLeaderBoard(req.query['type'], req.query['id'], req.query['n']).then(JSON.stringify).then(p => {
         console.log(p);

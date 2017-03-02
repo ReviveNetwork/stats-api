@@ -13,13 +13,13 @@ app.get('/:game/:function/:param', function (req, res) {
     if (req.params.game.toString().includes('bf2'))
         game = stats.bf2;
     if (req.params.function.toString().toLowerCase() === "getplayer")
-        game.getPlayer(req.params.param).then(res.send).then(res.end).catch(err => {
+        game.getPlayer(req.params.param).then(JSON.stringify).then(res.send).then(ig => res.end()).catch(err => {
             console.log(err + "\n" + err.stack);
             res.send("{\"error\":\"" + err + "\"}");
             res.end();
         })
     else if (req.params.function.toString().toLowerCase() === "getplayers" || req.params.function.toString().toLowerCase() === "search")
-        game.getPlayers(req.params.param).then(res.send).then(res.end).catch(err => {
+        game.getPlayers(req.params.param).then(JSON.stringify).then(res.send).then(ig => res.end()).catch(err => {
             console.log(err + "\n" + err.stack);
             res.send("{\"error\":\"" + err + "\"}");
             res.end();

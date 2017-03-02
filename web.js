@@ -67,9 +67,6 @@ app.get('/:game/getleaderboard', function (req, res) {
         res.end("{\"error\":\"" + "INVALID GAME" + "\"}", () => console.log("An Invalid Game was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
         return;
     }
-    if (!req.query['type']) {
-        res.end("{\"error\":\"" + "INVALID TYPE" + "\"}", () => console.log("An Invalid TYPE was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
-    }
     game.getLeaderBoard(req.query['type'], req.query['id'], req.query['n']).then(JSON.stringify).then(p => {
         console.log(p);
         return p;

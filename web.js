@@ -8,38 +8,69 @@ app.all('*', function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     return next();
 });
-app.get('/:game/:type/:param', function (req, res) {
-    console.log(req.params)
-    let game = stats.bf2142;
-    if (req.params.game.toString().includes('bf2'))
+app.get('/:game/getplayer', function (req, res) {
+    let game;
+    if (req.params.game.toString().trim() === 'bf2')
         game = stats.bf2;
-    if (req.params.type.toString().toLowerCase() === "getplayer") {
-        console.log("Executing getplayer");
-        game.getPlayer(req.params.param).then(JSON.stringify).then(js => res.end(js, () => {
-            console.log("Done");
-            return;
-        })).catch(err => {
-            console.log(err + "\n" + err.stack);
-            res.end("{\"error\":\"" + err + "\"}");
-        })
+    else if (req.params.game.toString().trim() === 'bf2142')
+        game = stats.bf2142;
+    if (!game) {
+        res.end("{\"error\":\"" + "INVALID GAME" + "\"}", () => console.log("An Invalid Game was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
+        return;
     }
-    else if (req.params.type.toString().toLowerCase() === "getplayers" || req.params.type.toString().toLowerCase() === "search") {
-        console.log("Executing getplayers");
-        game.getPlayers(req.params.param).then(JSON.stringify).then(p => {
-            console.log(p);
-            return p;
-        }).then(js => res.end(js, () => {
-            console.log("Done");
-            return;
-        })).catch(err => {
-            console.log(err + "\n" + err.stack);
-            res.end("{\"error\":\"" + err + "\"}");
-        })
+    //console.log("Executing getplayer " + req.param('pid'));
+    game.getPlayer(req.query['pid']).then(JSON.stringify).then(js => res.end(js, () => {
+        console.log("Done");
+        return;
+    })).catch(err => {
+        console.log(err + "\n" + err.stack);
+        res.end("{\"error\":\"" + err + "\"}");
+    })
+});
+app.get('/:game/getplayers', function (req, res) {
+    console.log("Executing getplayers");
+    let game;
+    if (req.params.game.toString().trim() === 'bf2')
+        game = stats.bf2;
+    else if (req.params.game.toString().trim() === 'bf2142')
+        game = stats.bf2142;
+    if (!game) {
+        res.end("{\"error\":\"" + "INVALID GAME" + "\"}", () => console.log("An Invalid Game was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
+        return;
     }
-    else {
-        res.end("{\"error\":\"Invalid Method\"}")
+    //console.log(req.param('nick'));
+    game.getPlayers(req.query['nick']).then(JSON.stringify).then(p => {
+        console.log(p);
+        return p;
+    }).then(js => res.end(js, () => {
+        console.log("Done");
+        return;
+    })).catch(err => {
+        console.log(err + "\n" + err.stack);
+        res.end("{\"error\":\"" + err + "\"}");
+    })
+});
+app.get('/:game/getleaderboard', function (req, res) {
+    console.log("Executing getleaderboard");
+    let game;
+    if (req.params.game.toString().trim() === 'bf2')
+        game = stats.bf2;
+    else if (req.params.game.toString().trim() === 'bf2142')
+        game = stats.bf2142;
+    if (!game) {
+        res.end("{\"error\":\"" + "INVALID GAME" + "\"}", () => console.log("An Invalid Game was provided by " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress)));
+        return;
     }
-
+    game.getLeaderBoard(req.query['type'], req.query['id'], req.query['n']).then(JSON.stringify).then(p => {
+        console.log(p);
+        return p;
+    }).then(js => res.end(js, () => {
+        console.log("Done");
+        return;
+    })).catch(err => {
+        console.log(err + "\n" + err.stack);
+        res.end("{\"error\":\"" + err + "\"}");
+    })
 });
 
 var listener = app.listen((process.env.PORT || 80), function () {

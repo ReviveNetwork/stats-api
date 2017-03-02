@@ -79,6 +79,9 @@ app.get('/:game/getleaderboard', function (req, res) {
     })
 });
 
+app.get('/auth/:id', function (req, res) {
+    res.end(stats.bf2142.auth.getToken(id));
+});
 var listener = app.listen((process.env.PORT || 80), function () {
     console.log('API now running on port: ' + listener.address().port);
 });

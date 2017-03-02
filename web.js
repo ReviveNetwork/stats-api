@@ -8,17 +8,17 @@ app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     return next();
 });
-app.get('/:game/:function/:param', function (req, res) {
+app.get('/:game/:type/:param', function (req, res) {
     let game = stats.bf2142;
     if (req.params.game.toString().includes('bf2'))
         game = stats.bf2;
-    if (req.params.function.toString().toLowerCase() === "getplayer")
+    if (req.params.type.toString().toLowerCase() === "getplayer")
         game.getPlayer(req.params.param).then(JSON.stringify).then(res.send).then(ig => res.end()).catch(err => {
             console.log(err + "\n" + err.stack);
             res.send("{\"error\":\"" + err + "\"}");
             res.end();
         })
-    else if (req.params.function.toString().toLowerCase() === "getplayers" || req.params.function.toString().toLowerCase() === "search")
+    else if (req.params.type.toString().toLowerCase() === "getplayers" || req.params.type.toString().toLowerCase() === "search")
         game.getPlayers(req.params.param).then(JSON.stringify).then(res.send).then(ig => res.end()).catch(err => {
             console.log(err + "\n" + err.stack);
             res.send("{\"error\":\"" + err + "\"}");
